@@ -5,28 +5,9 @@ fn main() {
     let mut flag = true;
     while flag {
         let mut selector = String::new();
-        let mut number1 = String::new();
-        let mut number2 = String::new();
         let mut result: f64 = 0.0;
-        loop {
-            println!("First Number: ");
-            stdin().read_line(&mut number1).expect("Failed");
-            match parse_value(&number1) {
-                Some(num) => ,
-                None => continue,
-            }
-
-        }
-        loop{
-            let mut number2 = String::new();
-            println!("First Number: ");
-            stdin().read_line(&mut number2).expect("Failed");
-            match parse_value(&number2) {
-                Some(f64) => break,
-                None => continue,
-            }
-
-        }
+        let number1 = secure_user_input();
+        let number2 = secure_user_input();
         println!("Tell me what you want to calculate: ");
         println!("For Addition Press 1");
         println!("For Subtraction Press 2");
@@ -47,12 +28,21 @@ fn main() {
     }
 }
 
-fn parse_value (value: &String)-> Option<f64> {
-    if let Ok(num) = value.trim().parse::<f64>() {
-        Some(num)
-    }
-    else {
-        None
+fn secure_user_input() -> f64{
+    loop {
+        let mut input = String::new();
+        println!("Number 1:");
+        stdin().read_line(&mut input).unwrap();
+        match input.trim().parse::<f64>() {
+            Ok(num) => {
+                return num
+            },
+            Err(_) => {
+                println!("Invalid input. Please enter a floating point number.");
+                input.clear();
+                continue
+            }
+        }
     }
 }
 fn addition(a: f64, b: f64) -> f64 {
