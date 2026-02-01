@@ -1,4 +1,5 @@
 use std::io::stdin;
+use std::collections::VecDeque;
 pub mod arithmetic;
 pub use arithmetic::*;
 
@@ -11,23 +12,24 @@ pub fn user_input() -> Vec<String> {
 
 pub fn arithmetic() -> f64 {
     let input = user_input();
-    let mut num_stack: Vec<f64> = Vec::new();
-    let mut operator_stack: Vec<String> = Vec::new();
+    let mut num_stack: VecDeque<f64> = VecDeque::new();
+    let mut operator_stack: VecDeque<String> = VecDeque::new();
+    let mut priority_operator_stack: VecDeque<String> = VecDeque::new();
 
     //dividing input onto two stack
     for token in input {
         match token.parse::<f64>() {
-            Ok(num) => num_stack.push(num),
-            Err(_) => operator_stack.push(token.to_string()),
+            Ok(num) => num_stack.push_back(num),
+            Err(_) => operator_stack.push_back(token.to_string()),
         }
     }
 
     //operating on this two stack
     for operator in operator_stack {
-        let number2 = num_stack.pop().expect("num_stack stack is empty");
-        let number1 = num_stack.pop().expect("num_stack stack is empty");
+        let number1 = num_stack.pop_front().expect("num_stack stack is empty");
+        let number2 = num_stack.pop_front().expect("num_stack stack is empty");
         let result = selector_for_output(operator.as_str(), number1, number2);
-        num_stack.push(result);
+        num_stack.push_front(result);
     }
     num_stack[0]
 }
@@ -39,6 +41,8 @@ pub fn selector_for_output(selector: &str, number1: f64, number2: f64) -> f64 {
         "-" => result = substraction(number1, number2),
         "*" => result = multiply(number1, number2),
         "/" => result = division(number1, number2),
+        "%" => result = modulo(number1, number2),
+        "^" => result = pow(number1, number2),
         _ => {}
     }
     result
