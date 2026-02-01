@@ -1,5 +1,4 @@
 use std::io::stdin;
-
 pub mod arithmetic;
 pub use arithmetic::*;
 
@@ -19,9 +18,7 @@ pub fn arithmetic() -> f64 {
     for token in input {
         match token.parse::<f64>() {
             Ok(num) => num_stack.push(num),
-            Err(_) => {
-                operator_stack.push(token.to_string())
-            }
+            Err(_) => operator_stack.push(token.to_string()),
         }
     }
 
@@ -29,7 +26,7 @@ pub fn arithmetic() -> f64 {
     for operator in operator_stack {
         let number2 = num_stack.pop().expect("num_stack stack is empty");
         let number1 = num_stack.pop().expect("num_stack stack is empty");
-        let result= selector_for_output(operator.as_str(), number1, number2);
+        let result = selector_for_output(operator.as_str(), number1, number2);
         num_stack.push(result);
     }
     num_stack[0]
