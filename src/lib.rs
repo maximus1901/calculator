@@ -20,8 +20,21 @@ pub fn arithmetic() -> f64 {
     for token in input {
         match token.parse::<f64>() {
             Ok(num) => num_stack.push_back(num),
-            Err(_) => operator_stack.push_back(token.to_string()),
+            Err(_) => {
+                match token.as_str() {
+                    "+" => operator_stack.push_back(token),
+                    "-" => operator_stack.push_back(token),
+                    "*" => priority_operator_stack.push_back(token),
+                    "/" => priority_operator_stack.push_back(token),
+                    "%" => priority_operator_stack.push_back(token),
+                    "^" => priority_operator_stack.push_back(token),
+                    _ => {}
+                }
+            }
         }
+    }
+    for operator in priority_operator_stack{
+
     }
 
     //operating on this two stack
