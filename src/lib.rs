@@ -3,7 +3,7 @@ use std::io::stdin;
 
 pub mod arithmetic;
 use crate::arithmetic::Operator::{
-    addition, division, modulus, multiplication, power, subtraction,
+    Addition, Division, Modulus, Multiplication, Power, Subtraction,
 };
 pub use arithmetic::*;
 
@@ -46,12 +46,12 @@ pub fn arithmetic(input: Vec<String>) -> f64 {
 
 pub fn selector_for_output(selector: &str, number1: f64, number2: f64) -> f64 {
     let operator = match selector {
-        "+" => addition,
-        "-" => subtraction,
-        "*" => multiplication,
-        "/" => division,
-        "%" => modulus,
-        "^" => power,
+        "+" => Addition,
+        "-" => Subtraction,
+        "*" => Multiplication,
+        "/" => Division,
+        "%" => Modulus,
+        "^" => Power,
         _ => panic!("Unknown operator: {}", selector),
     };
     operator.calculate(number1, number2).unwrap_or(0.0)
