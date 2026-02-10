@@ -1,24 +1,27 @@
-pub fn addition(a: f64, b: f64) -> f64 {
-    a + b
-}
-pub fn substraction(a: f64, b: f64) -> f64 {
-    a - b
-}
-
-pub fn multiply(a: f64, b: f64) -> f64 {
-    a * b
+pub enum Operator {
+    addition,
+    subtraction,
+    multiplication,
+    division,
+    modulus,
+    power,
 }
 
-pub fn division(a: f64, b: f64) -> f64 {
-    if a == f64::from(0) || b == f64::from(0) {
-        return f64::from(0);
+impl Operator {
+    pub fn calculate(&self, a: f64, b: f64) -> Result<f64, String> {
+        match self {
+            Operator::addition => Ok(a + b),
+            Operator::subtraction => Ok(a - b),
+            Operator::multiplication => Ok(a * b),
+            Operator::division => {
+                if b == 0.0 {
+                    Err("Division by zero".to_string())
+                } else {
+                    Ok(a / b)
+                }
+            }
+            Operator::modulus => Ok(a % b),
+            Operator::power => Ok(a.powf(b)),
+        }
     }
-    f64::from(a) / f64::from(b)
-}
-
-pub fn modulo(a: f64, b: f64) -> f64 {
-    a % b
-}
-pub fn pow(a: f64, b: f64) -> f64 {
-    a.powf(b)
 }
