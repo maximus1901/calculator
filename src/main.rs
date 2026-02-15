@@ -4,6 +4,6 @@ fn main() {
     loop {
         println!("Tell me what you want to calculate: ");
         let result = user_input_arithmetic();
-        print!("Your Input accumulates to: {:?} \n", result);
+        println!("Your Input accumulates to: {:?}", result);
     }
 }
